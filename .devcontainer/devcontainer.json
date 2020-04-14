@@ -1,0 +1,71 @@
+{
+	"name": "jupyter_sandbox",
+	"context": "..",
+	"dockerFile": "Dockerfile",
+
+	// Set *default* container specific settings.json values on container create.
+	"settings": {
+		"terminal.integrated.shell.linux": "/bin/bash",
+		"python.pythonPath": "/usr/bin/python",
+		"python.linting.enabled": true,
+		"python.linting.pylintEnabled": true,
+		"python.linting.pylintPath": "/usr/local/bin/pylint"
+	},
+
+	// Add the IDs of extensions you want installed when the container is created.
+	"extensions": [
+		"ms-python.python",
+		"ms-pyright.pyright",
+		"eamodio.gitlens",
+		"njpwerner.autodocstring",
+		"ryanluker.vscode-coverage-gutters",
+		"stkb.rewrap",
+		"ms-azuretools.vscode-docker",
+		"mikestead.dotenv",
+		"ryanluker.vscode-coverage-gutters",
+		"davidwang.ini-for-vscode"
+	],
+
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// This is needed on a mac, because --net=host doesn't work on a mac
+	"forwardPorts": ["${localEnv:JUPYTERLAB_SANDBOX_PORT}"],
+
+	// Use 'postCreateCommand' to run commands after the container is created.
+	"postCreateCommand": ".devcontainer/post_create.sh",
+
+	// Uncomment to connect as a non-root user. See https://aka.ms/vscode-remote/containers/non-root.
+	"remoteUser": "vscode",
+
+	"mounts": [
+		"source=${localEnv:KACHERY_STORAGE_DIR},target=${localEnv:KACHERY_STORAGE_DIR},type=bind,consistency=delegated",
+		"source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind",
+		"source=/tmp,target=/tmp,type=bind,consistency=delegated",
+		"source=${localEnv:REACTOPYA_SOURCE_DIR},target=/workspaces/reactopya,type=bind,consistency=delegated",
+		"source=${localEnv:HITHER2_SOURCE_DIR},target=/workspaces/hither2,type=bind,consistency=delegated",
+		"source=${localEnv:KACHERY_SOURCE_DIR},target=/workspaces/kachery,type=bind,consistency=delegated",
+		"source=${localEnv:SPIKEFOREST2_SOURCE_DIR},target=/workspaces/spikeforest2,type=bind,consistency=delegated"
+
+		// So that installed vscode extensions persist between builds
+		// See: https://code.visualstudio.com/docs/remote/containers-advanced#_avoiding-extension-reinstalls-on-container-rebuild
+		"source=jupyter_sandbox_vscode_server_extensions,target=/home/vscode/.vscode-server/extensions,type=volume"
+	],
+
+	"containerEnv": {
+		"KACHERY_STORAGE_DIR": "${localEnv:KACHERY_STORAGE_DIR}",
+		"KACHERY_DEFAULT_PASSWORD": "${localEnv:KACHERY_DEFAULT_PASSWORD}",
+		"JUPYTERLAB_SANDBOX_PORT": "${localEnv:JUPYTERLAB_SANDBOX_PORT}",
+		"DISPLAY": "${localEnv:DISPLAY}",
+		"HOME": "/home/vscode"
+	},
+
+	"runArgs": [
+		"--privileged",
+		"--net=host" // doesn't work on a mac
+	],
+
+	"isInternal": true,
+
+	"experimentalFeatures": {
+		"customContainers": true
+	}
+}
