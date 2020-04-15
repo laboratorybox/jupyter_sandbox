@@ -28,7 +28,7 @@
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// This is needed on a mac, because --net=host doesn't work on a mac
-	"forwardPorts": ["${localEnv:JUPYTERLAB_SANDBOX_PORT}"],
+	// "forwardPorts": ["${localEnv:JUPYTERLAB_SANDBOX_PORT}"],
 
 	// Use 'postCreateCommand' to run commands after the container is created.
 	"postCreateCommand": ".devcontainer/post_create.sh",
@@ -51,6 +51,7 @@
 	],
 
 	"containerEnv": {
+		"LABBOX_EPHYS_MONGO_URI": "${localEnv:LABBOX_EPHYS_MONGO_URI}",
 		"KACHERY_STORAGE_DIR": "${localEnv:KACHERY_STORAGE_DIR}",
 		"KACHERY_DEFAULT_PASSWORD": "${localEnv:KACHERY_DEFAULT_PASSWORD}",
 		"JUPYTERLAB_SANDBOX_PORT": "${localEnv:JUPYTERLAB_SANDBOX_PORT}",

@@ -110,6 +110,8 @@ RUN pip install pylint ipython pytest pytest-cov
 RUN apt-get install -y libasound2 libnss3-dev
 
 RUN pip install simplejson mpld3
+RUN pip install altair
+# altair_viewer
 
 ENV PATH=$PATH:/workspaces/jupyter_sandbox/bin
 
