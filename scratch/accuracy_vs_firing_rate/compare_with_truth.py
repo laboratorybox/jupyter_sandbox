@@ -3,10 +3,10 @@ import hither2 as hi
 import kachery as ka
 
 @hi.function('compare_with_truth', '0.1.0')
-@hi.container('docker://magland/spikeforest2:0.1.0')
+@hi.container('docker://magland/spikeforest_sandbox:0.1.0')
 @hi.local_modules(['/workspaces/spikeforest2/spikeforest2_utils'])
 def compare_with_truth(sorting_path, sorting_true_path):
-    from spikeforest2_utils import AutoRecordingExtractor, AutoSortingExtractor
+    from spikeforest2_utils import AutoSortingExtractor
     from spikeforest2_utils import SortingComparison
     
     # we should not need to do this config (think about it)
